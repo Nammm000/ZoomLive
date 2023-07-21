@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import FormContainer from '../components/FormContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
+
+import googleImage from '../assets/images/google.png';
+import githubImage from '../assets/images/github.png';
+import appleImage from '../assets/images/apple.png';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -18,6 +23,10 @@ const LoginScreen = () => {
   const [login, { isLoading }] = useLoginMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
+
+  const googleLogin = () => {
+    window.open("https://localhost:3000/o-auth/google", "_self");
+  }
 
   useEffect(() => {
     if (userInfo) {
@@ -72,6 +81,34 @@ const LoginScreen = () => {
       </Form>
 
       {isLoading && <Loader />}
+
+      <br></br>
+
+      <Row className='py-1'>
+        <p>or login with</p>
+        <Col>
+          <div onClick={googleLogin}>
+            <img src={googleImage} alt="Google Icon" />
+          </div>
+        </Col>
+
+        <Col>
+          <div >
+            <LinkContainer to='/o-auth/google'>
+              <img src={githubImage} alt="Github Icon" />
+            </LinkContainer>
+          </div>
+        </Col>
+
+        <Col>
+          <div >
+            <LinkContainer to='/o-auth/google'>
+              <img src={appleImage} alt="Apple Icon" />
+            </LinkContainer>
+          </div>
+        </Col>
+      </Row>
+
 
       <Row className='py-3'>
         <Col>
